@@ -251,6 +251,8 @@ helm-lint: install-helm
 	# run lint on helm charts
 	helm lint --strict charts/csi-secrets-store-provider-azure
 	helm lint --strict manifest_staging/charts/csi-secrets-store-provider-azure
+	@values=$$(jq -e '{cloud: {name: .name, environment: .}, windows: {enabled: true}}' test/custom_environment.json) && \
+		printf '%s\n' "$$values" | helm lint --strict manifest_staging/charts/csi-secrets-store-provider-azure --values -
 
 ## --------------------------------------
 ## Release
